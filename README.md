@@ -12,10 +12,3 @@ To test the ASP files, run this command:
 where n-1 is the maximum number of actions allowed in planning. 
 
 
-Expected output :
-
-approach(d1_m11,0) approach(d1_corr_m_corr_watson,3)  goto(coffee_counter,6) gothrough(d1_corr_m_corr_watson,5) gothrough(d1_m11,2) opendoor(d1_m11,1) opendoor(d1_corr_m_corr_watson,4)
-
-Observed output :
-approach(d1_m11,0) approach(d1_corr_m_corr_watson,3) approach(d1_corr_m_corr_watson,6) goto(coffee_counter,7) gothrough(d1_corr_m_corr_watson,5) gothrough(d1_m11,2) opendoor(d1_m11,1) opendoor(d1_corr_m_corr_watson,4)
-
