@@ -1,4 +1,3 @@
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %  Actions
@@ -31,10 +30,13 @@ open(D,I+1) :- opendoor(D,I), door(D), I=0..n-2.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-facing(O,I+1) :- goto(O,I), I=0..n-2.
-beside(O,I+1) :- goto(O,I), I=0..n-2.
-at(R,I+1) :- goto(O,I), inside(O,R),  I=0..n-2.
-:- goto(O,I+1), inside(O,R1), at(R2,I), not acc(R1,R2).
+%facing(O,I+1) :- load(O,I), I=0..n-2.
+%beside(O,I+1) :- load(O,I), I=0..n-2.
+loaded(O,I+1) :- load(O,I), I=0..n-2.
+-facing(D,I+1) :- load(O,I), door(D), I=0..n-2.
+-beside(D,I+1) :- load(O,I), door(D), I=0..n-2.
+%at(R,I+1) :- load(O,I), inside(O,R),  I=0..n-2.
+:- load(O,I), inside(O,R1), at(R2,I), not acc(R1,R2).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,8 +87,12 @@ facing(D,I+1) :- facing(D,I), not -facing(D,I+1), I=0..n-2.
 -facing(D,I+1) :- -facing(D,I), not facing(D,I+1), I=0..n-2.
 
 % open is inertial
-open(D,I+1) :- open(D,I), not -open(D,I+1), I=0..n-2.
--open(D,I+1) :- -open(D,I), not open(D,I+1), I=0..n-2.
+%open(D,I+1) :- open(D,I), not -open(D,I+1), I=0..n-2.
+%-open(D,I+1) :- -open(D,I), not open(D,I+1), I=0..n-2.
+
+loaded(O,I+1) :- loaded(O,I), not -loaded(O,I+1), I=0..n-2.
+-loaded(O,I+1) :- -loaded(O,I), not loaded(O,I+1), I=0..n-2.
+-loaded(O,I) :- object(O), I=0. 
 
 % beside is inertial
 beside(D,I+1) :- beside(D,I), not -beside(D,I+1), I=0..n-2.
@@ -110,5 +116,5 @@ inside(O,R,I+1) :- inside(O,R,I), not -inside(O,R,I+1),  I=0..n-2.
 -inside(O,R2,I+1):- inside(O,R1,I+1), inside(O,R2,I), R1 != R2, I=0..n-2.
 
 %object is inertial
-object(O,I+1) :- object(O,I), I=0..n-2.
+% object(O,I+1) :- object(O,I), I=0..n-2.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

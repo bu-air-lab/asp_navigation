@@ -7,7 +7,7 @@
 
 1{	approach(D1,I) : door(D1);
 	gothrough(D2,I) : door(D2);
-	goto(O,I) : object(O); 
+	load(O,I) : object(O); 
 	opendoor(D3,I) : door(D3)
 	}1 :- not noop(I), I=0..n-2.
 
