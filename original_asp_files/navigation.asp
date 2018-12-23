@@ -15,6 +15,7 @@ at(R2,I+1) :- approach(D,I), at(R1,I), hasdoor(R2,D), acc(R1,R2), I=0..n-2.
 
 at(R2,I+1) :- gothrough(D,I),  at(R1,I), dooracc(R1,D,R2), I=0..n-2.
 -facing(D,I+1) :- gothrough(D,I), I=0..n-2.
+-open(D,I+1) :- gothrough(D,I), I=0..n-2.
 :- gothrough(D,I), not facing(D,I), door(D), I=0..n-1.
 :- gothrough(D,I), not open(D,I), door(D), I=0..n-1.
 :- gothrough(D,I), at(R,I), not hasdoor(R,D), door(D), room(R), I=0..n-1.
@@ -25,14 +26,16 @@ open(D,I+1) :- opendoor(D,I), door(D), I=0..n-2.
 :- opendoor(D,I), open(D,I), door(D), I=0..n-1.
 
 
-located(O,R,I+1) :- unload(O), object(O), at(R,I), I=0..n-2.
--loaded(O,R,I+1) :- unload(O), object(O), at(R,I), I=0..n-2.
-:- unload(O), not loaded(O), object(O), I=0..n-1.
+located(O,R,I+1) :- unload(O,I), object(O), at(R,I), I=0..n-2.
+-loaded(O,I+1) :- unload(O,I), object(O), at(R,I), I=0..n-2.
+:- unload(O,I), not loaded(O,I), object(O), I=0..n-1.
 
 
-loaded(O,R,I+1) :- load(O), object(O), at(R,I), I=0..n-2.
--located(O,R,I+1) :- load(O), object(O), at(R,I), I=0..n-2.
-:- load(O), not -loaded(O), object(O), I=0..n-1.
+loaded(O,I+1) :- load(O,I), object(O), at(R,I), I=0..n-2.
+-located(O,R,I+1) :- load(O,I), object(O), at(R,I), I=0..n-2.
+-facing(D,I+1) :- load(O,I), object(O), door(D), I=0..n-2.
+:- load(O,I), loaded(O1,I), object(O), object(O1), I=0..n-1.
+:- load(O,I), located(O,R1,I), at(R2,I), R1!=R2, I=0..n-1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -79,8 +82,8 @@ beside(D,I+1) :- beside(D,I), not -beside(D,I+1), I=0..n-2.
 located(O,R,I+1) :- located(O,R,I), not -located(O,R,I+1), I=0..n-2.
 -located(O,R,I+1) :- -located(O,R,I), not located(O,R,I+1), I=0..n-2.
 
-loaded(O,R,I+1) :- loaded(O,R,I), not -loaded(O,R,I+1), I=0..n-2.
--loaded(O,R,I+1) :- -loaded(O,R,I), not loaded(O,R,I+1), I=0..n-2.
+loaded(O,I+1) :- loaded(O,I), not -loaded(O,I+1), I=0..n-2.
+-loaded(O,I+1) :- -loaded(O,I), not loaded(O,I+1), I=0..n-2.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -89,8 +92,7 @@ loaded(O,R,I+1) :- loaded(O,R,I), not -loaded(O,R,I+1), I=0..n-2.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-located(O,R,0) :- object(O), room(R). 
-
+%-loaded(O,0) :- object(O).
 
 
 %hide fluents implied by others
