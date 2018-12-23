@@ -91,4 +91,12 @@ acc(L1,L2) :- acc(L2,L1), location(L1), location(L2).
 acc(L1,L2) :- acc(L1,L3), acc(L2,L3), location(L1), location(L2), location(L3).
 
 
+ball(b0).
+ball(b1).
+ball(b2).
+square(s0).
+square(s1).
+square(s2). 
+object(O) :- ball(O).
+object(O) :- square(O). 
 

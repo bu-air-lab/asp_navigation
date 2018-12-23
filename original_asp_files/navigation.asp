@@ -24,6 +24,16 @@ open(D,I+1) :- opendoor(D,I), door(D), I=0..n-2.
 :- opendoor(D,I), not facing(D,I), door(D), I=0..n-1.
 :- opendoor(D,I), open(D,I), door(D), I=0..n-1.
 
+
+located(O,R,I+1) :- unload(O), object(O), at(R,I), I=0..n-2.
+-loaded(O,R,I+1) :- unload(O), object(O), at(R,I), I=0..n-2.
+:- unload(O), not loaded(O), object(O), I=0..n-1.
+
+
+loaded(O,R,I+1) :- load(O), object(O), at(R,I), I=0..n-2.
+-located(O,R,I+1) :- load(O), object(O), at(R,I), I=0..n-2.
+:- load(O), not -loaded(O), object(O), I=0..n-1.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %  Static laws
@@ -33,7 +43,6 @@ open(D,I+1) :- opendoor(D,I), door(D), I=0..n-2.
 %you can't be at two places at the some time
 -at(L2,I):- at(L1,I), location(L2), L1 != L2, I=0..n-1.
 
-
 %you can be facing only one door at a time
 -facing(D2,I):- facing(D1,I), door(D2), D1 != D2, I=0..n-1.
 
@@ -41,6 +50,7 @@ open(D,I+1) :- opendoor(D,I), door(D), I=0..n-2.
 %the observations must also return -beside which doesn't happen at the moment.
 -beside(D2,I):- beside(D1,I), door(D2), D1 != D2, I=0..n-1.
 
+-located(O,R1,I) :- located(O,R2,I), room(R1), room(R2), R1 != R2, I=0..n-1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -65,7 +75,28 @@ open(D,I+1) :- open(D,I), not -open(D,I+1), I=0..n-2.
 beside(D,I+1) :- beside(D,I), not -beside(D,I+1), I=0..n-2.
 -beside(D,I+1) :- -beside(D,I), not beside(D,I+1), I=0..n-2.
 
+% located is inertial
+located(O,R,I+1) :- located(O,R,I), not -located(O,R,I+1), I=0..n-2.
+-located(O,R,I+1) :- -located(O,R,I), not located(O,R,I+1), I=0..n-2.
+
+loaded(O,R,I+1) :- loaded(O,R,I), not -loaded(O,R,I+1), I=0..n-2.
+-loaded(O,R,I+1) :- -loaded(O,R,I), not loaded(O,R,I+1), I=0..n-2.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Initial
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+located(O,R,0) :- object(O), room(R). 
+
+
+
 %hide fluents implied by others
 %#hide -at/2.
 %#hide -facing/2.
 %#hide -beside/2.
+
+
+
