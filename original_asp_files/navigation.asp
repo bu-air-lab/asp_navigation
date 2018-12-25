@@ -28,6 +28,7 @@ open(D,I+1) :- opendoor(D,I), door(D), I=0..n-2.
 
 located(O,R,I+1) :- unload(O,I), object(O), at(R,I), I=0..n-2.
 -loaded(O,I+1) :- unload(O,I), object(O), at(R,I), I=0..n-2.
+-facing(D,I+1) :- unload(O,I), object(O), door(D), I=0..n-2.
 :- unload(O,I), not loaded(O,I), object(O), I=0..n-1.
 
 
